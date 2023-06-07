@@ -16,7 +16,7 @@ class _ExpensesState extends State<Expenses> {
     Expense(
         category: Category.work,
         title: "Flutter Project",
-        amount: 19.9,
+        amount: 1900.9,
         date: DateTime.now()),
     Expense(
         category: Category.food,
@@ -26,7 +26,7 @@ class _ExpensesState extends State<Expenses> {
     Expense(
         category: Category.leisure,
         title: "Cinema",
-        amount: 99,
+        amount: 399,
         date: DateTime.now()),
     Expense(
         category: Category.travel,
@@ -37,11 +37,10 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
-      builder: (context) => Container(
-          margin: const EdgeInsets.symmetric(vertical: 32),
-          child: NewExpense(onAddExpense: _addExpense)),
+      builder: (context) => NewExpense(onAddExpense: _addExpense),
     );
   }
 
@@ -75,6 +74,7 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    final width=MediaQuery.of(context).size.width;
     Widget mainContent =
         const Center(child: Text("No expenses found.Start adding some!"));
 
@@ -93,10 +93,15 @@ class _ExpensesState extends State<Expenses> {
         ],
       ),
       body: Center(
-        child: Column(
+        child: width<600? Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Chart(expenses: registeredExpenses),
+            Expanded(child: mainContent)
+          ],
+        ):Row(
+          children: [
+            Expanded(child: Chart(expenses: registeredExpenses)),
             Expanded(child: mainContent)
           ],
         ),

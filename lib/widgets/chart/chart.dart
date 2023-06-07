@@ -2,7 +2,6 @@ import 'package:expenses_project/models/expense.dart';
 import 'package:expenses_project/widgets/chart/chart_bar.dart';
 import 'package:flutter/material.dart';
 
-
 class Chart extends StatelessWidget {
   const Chart({super.key, required this.expenses});
 
@@ -31,6 +30,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Container(
@@ -68,25 +68,27 @@ class Chart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: buckets
-                .map(
-                  (bucket) => Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Icon(
-                    categoryIcon[bucket.category],
-                    color: isDarkMode
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withOpacity(0.7),
-                  ),
-                ),
-              ),
-            )
-                .toList(),
+          Expanded(
+            child: Row(
+              children: buckets
+                  .map(
+                    (bucket) => Padding(
+                      padding: width >= 600
+                          ? const EdgeInsets.symmetric(horizontal: 35)
+                          : const EdgeInsets.symmetric(horizontal: 33),
+                      child: Icon(
+                        categoryIcon[bucket.category],
+                        color: isDarkMode
+                            ? Theme.of(context).colorScheme.secondary
+                            : Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.7),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
           )
         ],
       ),
